@@ -21,11 +21,11 @@ RM			=	rm -rf
 FILES		= \
 			main \
 			parsing \
-			operation \
+			lst_utils \
 			sort1 \
 			sort2 \
-			zbeul \
-			instruction \
+			opti \
+			instruc \
 
 SRCS	=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS	=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))

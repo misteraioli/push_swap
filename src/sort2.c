@@ -6,83 +6,78 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 22:30:47 by niperez           #+#    #+#             */
-/*   Updated: 2024/08/27 23:08:44 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/11 02:40:03 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	ft_swap(int *a, int *b)
+void	move_lists(int a, t_list **lists, int *ter_size, char **instruc)
 {
-	int	temp;
+	int		value;
+	char	*name[2];
 
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-void	sort_tab(int **tab, int size)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < size - 1)
+	name[0] = "a\n";
+	name[1] = "a\n";
+	if (a <= 2)
+		name[1] = "b\n";
+	else
+		name[0] = "b\n";
+	if (a == 2 || a == 4)
+		ft_rr(lists, name, instruc);
+	value = *(int *)(lists[0])->content;
+	if ((a == 1 && value >= ter_size[2]) || (a == 3 && value < ter_size[1]))
+		ft_r(0, lists, name, instruc);
+	else if ((a <= 2 && value < ter_size[2]) || (a > 2 && value >= ter_size[1]))
 	{
-		j = i + 1;
-		while (j < size)
-		{
-			if (*tab[i] > *tab[j])
-				ft_swap(tab[i], tab[j]);
-			j++;
-		}
-		i++;
+		ft_p(lists, name, instruc);
+		if ((a <= 2 && value < ter_size[1]) || (a > 2 && value < ter_size[2]))
+			ft_r(1, lists, name, instruc);
 	}
 }
 
-static void	free_tab(int **tab, int size)
+static t_list	**invert(t_list **lists)
 {
-	while (size > 0)
-		free(tab[--size]);
-	free(tab);
+	t_list	*temp;
+
+	temp = lists[0];
+	lists[0] = lists[1];
+	lists[1] = temp;
+	return (lists);
 }
 
-void	quartile(int **tab, int *q3_size, int size_tab)
+void	sort_again(int a, t_list **lists, int *ter_size, char **instruc)
 {
-	sort_tab(tab, size_tab);
-	q3_size[2] = size_tab / 3 + 1;
-	q3_size[3] = size_tab / 3;
-	if (size_tab % 3 > 1)
-		q3_size[3] += 1;
-	q3_size[0] = *tab[q3_size[2] - 1];
-	q3_size[1] = *tab[q3_size[2] + q3_size[3] - 1];
-	if (size_tab % 3 < 1)
-		q3_size[2] -= 1;
-	q3_size[4] = size_tab - q3_size[2] - q3_size[3];
-	free_tab(tab, size_tab);
+	if (a <= 2)
+	{
+		if (a == 1)
+			sort(2, lists, ter_size[4], instruc);
+		else if (a == 2)
+			sort(1, lists, ter_size[4], instruc);
+		sort(3, invert(lists), ter_size[5], instruc);
+		sort(4, lists, ter_size[6], instruc);
+		invert(lists);
+	}
+	else
+	{
+		sort(1, invert(lists), ter_size[4], instruc);
+		sort(2, lists, ter_size[5], instruc);
+		if (a == 3)
+			sort(4, invert(lists), ter_size[6], instruc);
+		else if (a == 4)
+			sort(3, invert(lists), ter_size[6], instruc);
+	}
 }
 
-void	fill_tab(t_list *lst, int ***tab, int size_tab)
+int	is_sort(t_list *lst)
 {
-	int		i;
-
-	*tab = malloc(sizeof(int *) * size_tab);
-	if (*tab == NULL)
+	if (lst == NULL || lst->next == NULL)
+		return (1);
+	while (lst->next != NULL)
 	{
-		ft_lstclear(&lst, free);
-		exit(1);
+		if (*(int *)lst->content > *(int *)lst->next->content)
+			return (0);
+		lst = lst->next;
 	}
-	i = 0;
-	while (i < size_tab)
-	{
-		(*tab)[i] = malloc(sizeof(int));
-		if ((*tab)[i] == NULL)
-		{
-			ft_lstclear(&lst, free);
-			free_tab(*tab, i);
-			exit(1);
-		}
-		*(*tab)[i++] = *(int *)(lst)->content;
-		(lst) = (lst)->next;
-	}
+	return (1);
 }

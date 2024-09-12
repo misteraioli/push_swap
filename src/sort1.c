@@ -6,26 +6,43 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:47:51 by niperez           #+#    #+#             */
-/*   Updated: 2024/09/04 19:08:10 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/11 01:31:15 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_list	**invert(t_list **lists)
+static void	free_tab(int **tab, int size)
 {
-	t_list	*temp;
-
-	temp = lists[0];
-	lists[0] = lists[1];
-	lists[1] = temp;
-	return (lists);
+	while (size > 0)
+		free(tab[--size]);
+	free(tab);
 }
 
-void	reset(int a, t_list **lists)
+static void	fill_tab(t_list *lst, int ***tab, int size_tab)
 {
-	if (a < 3)
-		invert(lists);
+	int	i;
+
+	*tab = malloc(sizeof(int *) * size_tab);
+	if (*tab == NULL)
+	{
+		ft_lstclear(&lst, free);
+		exit(1);
+	}
+	i = 0;
+	while (i < size_tab)
+	{
+		(*tab)[i] = malloc(sizeof(int));
+		if ((*tab)[i] == NULL)
+		{
+			ft_lstclear(&lst, free);
+			free_tab(*tab, i);
+			exit(1);
+		}
+		*(*tab)[i] = *(int *)(lst)->content;
+		(lst) = (lst)->next;
+		i++;
+	}
 }
 
 void	fill_good_tab(int a, t_list **lists, int size_tab, int ***tableau)
@@ -34,61 +51,67 @@ void	fill_good_tab(int a, t_list **lists, int size_tab, int ***tableau)
 
 	if (a == 2 || a == 4)
 	{
-		i = -1;
-		while (++i < size_tab)
+		i = 0;
+		while (i++ < size_tab)
 			lst_reverse_rotate(&lists[0]);
 		fill_tab(lists[0], tableau, size_tab);
-		i = -1;
-		while (++i < size_tab)
+		i = 0;
+		while (i++ < size_tab)
 			lst_rotate(&lists[0]);
 	}
 	else
 		fill_tab(lists[0], tableau, size_tab);
 }
 
-void	sort_again(int a, t_list **lists, int *q3_size, char **instruc)
+static void	sort_tab(int **tab, int size)
 {
-	if (a == 1)
+	int	i;
+	int	j;
+	int	temp;
+
+	i = 0;
+	while (i < size - 1)
 	{
-		sort(2, lists, q3_size[2], instruc);
-		sort(3, invert(lists), q3_size[3], instruc);
-		sort(4, lists, q3_size[4], instruc);
+		j = i + 1;
+		while (j < size)
+		{
+			if (*tab[i] > *tab[j])
+			{
+				temp = *tab[i];
+				*tab[i] = *tab[j];
+				*tab[j] = temp;
+			}
+			j++;
+		}
+		i++;
 	}
-	else if (a == 2)
-	{
-		sort(1, lists, q3_size[2], instruc);
-		sort(3, invert(lists), q3_size[3], instruc);
-		sort(4, lists, q3_size[4], instruc);
-	}
-	else if (a == 3)
-	{
-		sort(1, invert(lists), q3_size[2], instruc);
-		sort(2, lists, q3_size[3], instruc);
-		sort(4, invert(lists), q3_size[4], instruc);
-	}
-	else if (a == 4)
-	{
-		sort(1, invert(lists), q3_size[2], instruc);
-		sort(2, lists, q3_size[3], instruc);
-		sort(3, invert(lists), q3_size[4], instruc);
-	}
-	reset(a, lists);
 }
 
-void	sort(int a, t_list **lists, int size_tab, char **instruc)
+void	tercile(int **tab, int *ter_size, int size_tab)
 {
-	int		**tableau;
-	int		q3_size[5];
-
-	if ((a == 1 && size_tab <= 1) || (a > 1 && size_tab < 1))
-		return ;
-	if ((a == 2 || a == 4) && ft_lstsize(lists[0]) == size_tab)
-		return (sort(a - 1, lists, size_tab, instruc));
-	if (a == 1 && is_sort(lists[0]))
-		return ;
-	fill_good_tab(a, lists, size_tab, &tableau);
-	quartile(tableau, q3_size, size_tab);
-	while (size_tab--)
-		move_lists(a, lists, q3_size, instruc);
-	sort_again(a, lists, q3_size, instruc);
+	sort_tab(tab, size_tab);
+	ter_size[0] = *tab[0];
+	ter_size[3] = *tab[size_tab - 1];
+	ter_size[4] = size_tab / 3;
+	ter_size[5] = size_tab / 3;
+	ter_size[6] = size_tab / 3;
+	if (size_tab % 3 == 0)
+	{
+		ter_size[1] = *tab[ter_size[4]];
+		ter_size[2] = *tab[ter_size[4] + ter_size[5]];
+	}
+	if (size_tab % 3 == 1)
+	{
+		ter_size[4]++;
+		ter_size[1] = *tab[ter_size[4] - 1];
+		ter_size[2] = *tab[ter_size[4] + ter_size[5] - 1];
+	}
+	if (size_tab % 3 == 2)
+	{
+		ter_size[4]++;
+		ter_size[5]++;
+		ter_size[1] = *tab[ter_size[4] - 1];
+		ter_size[2] = *tab[ter_size[4] + ter_size[5] - 1];
+	}
+	free_tab(tab, size_tab);
 }

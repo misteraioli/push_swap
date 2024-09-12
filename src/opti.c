@@ -1,50 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   zbeul.c                                            :+:      :+:    :+:   */
+/*   opti.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:14:32 by niperez           #+#    #+#             */
-/*   Updated: 2024/08/28 23:42:09 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/10 22:20:20 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	localisation(int a, char **name)
+static int	replace_word(char *str, const char *old_word, const char *new_word)
 {
-	if (a <= 2)
-	{
-		name[0] = "a\n";
-		name[1] = "b\n";
-	}
-	else
-	{
-		name[0] = "b\n";
-		name[1] = "a\n";
-	}
-}
+	char	*pos;
+	int		old_word_len;
+	int		new_word_len;
+	int		i;
 
-void	move_lists(int a, t_list **lists, int *q3_size, char **instruc)
-{
-	int		value;
-	char	*name[2];
-
-	localisation(a, name);
-	if (a == 2 || a == 4)
-		ft_rr(lists, name, instruc);
-	value = *(int *)(lists[0])->content;
-	if ((a == 1 && value >= q3_size[1]) || (a == 3 && value < q3_size[0]))
-		ft_r(0, lists, name, instruc);
-	else if (((a == 1 || a == 2) && value < q3_size[1])
-		|| ((a == 3 || a == 4) && value >= q3_size[0]))
+	i = 0;
+	old_word_len = ft_strlen(old_word);
+	new_word_len = ft_strlen(new_word);
+	pos = ft_strnstr(str, old_word, ft_strlen(str));
+	while (pos)
 	{
-		ft_p(lists, name, instruc);
-		if (((a == 1 || a == 2) && value < q3_size[0])
-			|| ((a == 3 || a == 4) && (value < q3_size[1])))
-			ft_r(1, lists, name, instruc);
+		if (old_word_len - new_word_len != 0)
+			ft_memmove(pos + new_word_len, pos + old_word_len,
+				ft_strlen(pos + old_word_len) + 1);
+		ft_memcpy(pos, new_word, new_word_len);
+		pos = ft_strnstr(str, old_word, ft_strlen(str));
+		i = 1;
 	}
+	return (i);
 }
 
 static void	opti1(int *i, char *instruc)

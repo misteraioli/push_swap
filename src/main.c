@@ -6,7 +6,7 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:06:03 by niperez           #+#    #+#             */
-/*   Updated: 2024/08/29 00:43:08 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/11 02:14:44 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,22 @@ void	print_list(t_list *lst)
 	ft_printf("\n");
 }
 
-int	replace_word(char *str, const char *old_word, const char *new_word)
+void	sort(int a, t_list **lists, int size_tab, char **instruc)
 {
-	char	*pos;
-	int		old_word_len;
-	int		new_word_len;
-	int		i;
+	int		**tableau;
+	int		ter_size[7];
 
-	i = 0;
-	old_word_len = ft_strlen(old_word);
-	new_word_len = ft_strlen(new_word);
-	pos = ft_strnstr(str, old_word, ft_strlen(str));
-	while (pos)
-	{
-		if (old_word_len - new_word_len != 0)
-			ft_memmove(pos + new_word_len, pos + old_word_len,
-				ft_strlen(pos + old_word_len) + 1);
-		ft_memcpy(pos, new_word, new_word_len);
-		pos = ft_strnstr(str, old_word, ft_strlen(str));
-		i = 1;
-	}
-	return (i);
+	if ((a == 1 && size_tab <= 1) || (a > 1 && size_tab < 1))
+		return ;
+	if ((a == 2 || a == 4) && ft_lstsize(lists[0]) == size_tab)
+		return (sort(a - 1, lists, size_tab, instruc));
+	if (a == 1 && is_sort(lists[0]))
+		return ;
+	fill_good_tab(a, lists, size_tab, &tableau);
+	tercile(tableau, ter_size, size_tab);
+	while (size_tab--)
+		move_lists(a, lists, ter_size, instruc);
+	sort_again(a, lists, ter_size, instruc);
 }
 
 int	main(int argc, char **argv)

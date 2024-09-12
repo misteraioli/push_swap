@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operation.c                                        :+:      :+:    :+:   */
+/*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 18:26:39 by niperez           #+#    #+#             */
-/*   Updated: 2024/08/27 20:14:14 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/10 23:46:30 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	lst_swap(t_list **lst)
-{
-	void	*temp;
-
-	if (*lst == NULL || (*lst)->next == NULL)
-		return ;
-	temp = (*lst)->next->content;
-	(*lst)->next->content = (*lst)->content;
-	(*lst)->content = temp;
-}
 
 void	lst_push(t_list **lst_to, t_list **lst_from)
 {
@@ -58,4 +47,15 @@ void	lst_reverse_rotate(t_list **lst)
 		temp = temp->next;
 	ft_lstadd_front(lst, temp->next);
 	temp->next = NULL;
+}
+
+void	lst_swap(t_list **lst)
+{
+	void	*temp;
+
+	if (*lst == NULL || (*lst)->next == NULL)
+		return ;
+	temp = (*lst)->next->content;
+	(*lst)->next->content = (*lst)->content;
+	(*lst)->content = temp;
 }
