@@ -6,7 +6,7 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:47:51 by niperez           #+#    #+#             */
-/*   Updated: 2024/09/11 01:31:15 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:00:31 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	fill_good_tab(int a, t_list **lists, int size_tab, int ***tableau)
 {
 	int	i;
 
-	if (a == 2 || a == 4)
+	if (a % 2 == 0)
 	{
 		i = 0;
 		while (i++ < size_tab)
@@ -90,28 +90,16 @@ static void	sort_tab(int **tab, int size)
 void	tercile(int **tab, int *ter_size, int size_tab)
 {
 	sort_tab(tab, size_tab);
-	ter_size[0] = *tab[0];
-	ter_size[3] = *tab[size_tab - 1];
 	ter_size[4] = size_tab / 3;
 	ter_size[5] = size_tab / 3;
 	ter_size[6] = size_tab / 3;
-	if (size_tab % 3 == 0)
-	{
-		ter_size[1] = *tab[ter_size[4]];
-		ter_size[2] = *tab[ter_size[4] + ter_size[5]];
-	}
-	if (size_tab % 3 == 1)
-	{
-		ter_size[4]++;
-		ter_size[1] = *tab[ter_size[4] - 1];
-		ter_size[2] = *tab[ter_size[4] + ter_size[5] - 1];
-	}
+	if (size_tab % 3 >= 1)
+		ter_size[6]++;
 	if (size_tab % 3 == 2)
-	{
-		ter_size[4]++;
 		ter_size[5]++;
-		ter_size[1] = *tab[ter_size[4] - 1];
-		ter_size[2] = *tab[ter_size[4] + ter_size[5] - 1];
-	}
+	ter_size[0] = *tab[0];
+	ter_size[1] = *tab[ter_size[4]];
+	ter_size[2] = *tab[ter_size[4] + ter_size[5]];
+	ter_size[3] = *tab[size_tab - 1];
 	free_tab(tab, size_tab);
 }

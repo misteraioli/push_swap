@@ -6,7 +6,7 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:06:03 by niperez           #+#    #+#             */
-/*   Updated: 2024/09/11 02:14:44 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:18:43 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ void	sort(int a, t_list **lists, int size_tab, char **instruc)
 	int		**tableau;
 	int		ter_size[7];
 
-	if ((a == 1 && size_tab <= 1) || (a > 1 && size_tab < 1))
+	if ((a == 1 && (size_tab == 1 || is_sort(lists[0])))
+		|| (a > 1 && size_tab == 0))
 		return ;
-	if ((a == 2 || a == 4) && ft_lstsize(lists[0]) == size_tab)
+	if ((a % 2 == 0) && ft_lstsize(lists[0]) == size_tab)
 		return (sort(a - 1, lists, size_tab, instruc));
-	if (a == 1 && is_sort(lists[0]))
-		return ;
 	fill_good_tab(a, lists, size_tab, &tableau);
 	tercile(tableau, ter_size, size_tab);
 	while (size_tab--)
@@ -51,11 +50,9 @@ int	main(int argc, char **argv)
 
 	lists[0] = NULL;
 	lists[1] = NULL;
-	if (argc == 1)
-		return (1);
-	else if (argc == 2 && parsing(argv, &lists[0]))
-		return (1);
-	else if (argc > 2 && fill_list(argc, argv, &lists[0]))
+	if ((argc == 1)
+		|| (argc == 2 && parsing(argv, &lists[0]))
+		|| (argc > 2 && fill_list(argc, argv, &lists[0])))
 		return (1);
 	instruc = malloc(sizeof(char));
 	*instruc = '\0';
