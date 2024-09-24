@@ -22,8 +22,8 @@ FILES		= \
 			main \
 			parsing \
 			lst_utils \
-			sort1 \
-			sort2 \
+			tercil \
+			sort \
 			opti \
 			instruc \
 

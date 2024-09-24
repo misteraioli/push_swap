@@ -6,33 +6,18 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:06:03 by niperez           #+#    #+#             */
-/*   Updated: 2024/09/24 17:37:27 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:57:29 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	print_list(t_list *lst)
-{
-	t_list	*temp;
-
-	temp = lst;
-	ft_printf("Éléments de la liste: ");
-	while (temp != NULL)
-	{
-		ft_printf("%d ", *(int *)(temp->content));
-		temp = temp->next;
-	}
-	ft_printf("\n");
-}
-
 void	sort(int cas, t_list **lists, int size, char **instruc)
 {
-	int		**tableau;
-	int		tercile[7];
+	int	**tableau;
+	int	tercile[7];
 
-	if ((cas == 1 && (size == 1 || is_sort(lists[0], size)))
-		|| (cas > 1 && size == 0))
+	if ((cas == 1 && is_sort(lists[0], size)) || (cas > 1 && size == 0))
 		return ;
 	if ((cas % 2 == 0) && ft_lstsize(lists[0]) == size)
 		return (sort(cas - 1, lists, size, instruc));

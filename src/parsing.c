@@ -6,7 +6,7 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 00:36:21 by niperez           #+#    #+#             */
-/*   Updated: 2024/09/24 17:35:26 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:51:43 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ static int	check_double(t_list **lst)
 	t_list	*next;
 
 	current = *lst;
-	while (current != NULL)
+	while (current)
 	{
 		next = current->next;
-		while (next != NULL)
+		while (next)
 		{
 			if (*((int *)current->content) == *((int *)next->content))
 				return (ft_lstclear(lst, free), ft_putstr_fd("Error\n", 2), 1);
