@@ -6,7 +6,7 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 00:36:21 by niperez           #+#    #+#             */
-/*   Updated: 2024/08/29 00:44:26 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:35:26 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,27 +96,24 @@ int	fill_list(int argc, char **argv, t_list **lst)
 
 int	parsing(char **argv, t_list	**list)
 {
-	char	**argve;
-	int		argce;
-	char	*str1;
-	char	*str2;
-	int		ok;
+	char	**argv_new;
+	int		argc;
+	char	*name_space;
+	char	*argv_str;
+	int		error;
 
-	str1 = ft_strjoin(argv[0], " ");
-	str2 = ft_strjoin(str1, argv[1]);
-	argve = ft_split(str2, ' ');
-	free(str1);
-	free(str2);
-	argce = 1;
-	while (argve[argce] != 0)
-		argce++;
-	if (fill_list(argce, argve, list))
-		ok = 1;
-	else
-		ok = 0;
-	argce++;
-	while (argce)
-		free(argve[--argce]);
-	free(argve);
-	return (ok);
+	name_space = ft_strjoin(argv[0], " ");
+	argv_str = ft_strjoin(name_space, argv[1]);
+	argv_new = ft_split(argv_str, ' ');
+	free(name_space);
+	free(argv_str);
+	argc = 1;
+	while (argv_new[argc])
+		argc++;
+	error = fill_list(argc, argv_new, list);
+	argc++;
+	while (argc)
+		free(argv_new[--argc]);
+	free(argv_new);
+	return (error);
 }

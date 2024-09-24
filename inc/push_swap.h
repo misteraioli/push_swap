@@ -6,7 +6,7 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:21:19 by niperez           #+#    #+#             */
-/*   Updated: 2024/09/10 23:46:50 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/24 17:36:24 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	ft_r(int i, t_list **lists, char **name, char **instruc);
 void	ft_rr(t_list **lists, char **name, char **instruc);
 void	ft_p(t_list **lists, char **name, char **instruc);
 
-void	sort(int a, t_list **lists, int size_tab, char **instruc);
+void	sort(int cas, t_list **lists, int size_tab, char **instruc);
 
-void	fill_good_tab(int a, t_list **lists, int size_tab, int ***tableau);
-void	tercile(int **tab, int *q3_size, int size_tab);
+void	fill_good_tab(int cas, t_list **lists, int size_tab, int ***tableau);
+void	tercil_calc(int **tab, int *tercil, int size_tab);
 
-int		is_sort(t_list *lst);
-void	move_lists(int a, t_list **lists, int *q3_size, char **instruc);
-void	sort_again(int a, t_list **lists, int *q3_size, char **instruc);
+int		is_sort(t_list *lst, int size);
+void	move_lists(int cas, t_list **lists, int *tercil, char **instruc);
+void	sort_again(int cas, t_list **lists, int *tercil, char **instruc);
 
 void	opti_instruc(char *instruc);
 

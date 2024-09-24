@@ -6,7 +6,7 @@
 /*   By: niperez <niperez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:42:26 by niperez           #+#    #+#             */
-/*   Updated: 2024/09/24 00:46:57 by niperez          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:26:03 by niperez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,19 @@ static void	ft_instruc(const char *type, int i, char **name, char **instruc)
 
 void	ft_r(int i, t_list **lists, char **name, char **instruc)
 {
-	if (ft_lstsize(lists[i]) > 2)
+	if (ft_lstsize(lists[i]) > 1)
 	{
 		lst_rotate(&lists[i]);
 		ft_instruc("r", i, name, instruc);
-	}
-	else if (ft_lstsize(lists[i]) == 2)
-	{
-		lst_swap(&lists[i]);
-		ft_instruc("s", i, name, instruc);
 	}
 }
 
 void	ft_rr(t_list **lists, char **name, char **instruc)
 {
-	if (ft_lstsize(lists[0]) > 2)
+	if (ft_lstsize(lists[0]) > 1)
 	{
 		lst_reverse_rotate(&lists[0]);
 		ft_instruc("rr", 0, name, instruc);
-	}
-	else if (ft_lstsize(lists[0]) == 2)
-	{
-		lst_swap(&lists[0]);
-		ft_instruc("s", 0, name, instruc);
 	}
 }
 
