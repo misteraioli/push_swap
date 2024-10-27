@@ -31,7 +31,7 @@ void	ft_r(int i, t_list **lists, char **name, char **instruc)
 		lst_swap(&lists[i]);
 		ft_instruc("s", i, name, instruc);
 	}
-	if (ft_lstsize(lists[i]) > 2)
+	else if (ft_lstsize(lists[i]) > 2)
 	{
 		lst_rotate(&lists[i]);
 		ft_instruc("r", i, name, instruc);
@@ -45,7 +45,7 @@ void	ft_rr(t_list **lists, char **name, char **instruc)
 		lst_swap(&lists[0]);
 		ft_instruc("s", 0, name, instruc);
 	}
-	if (ft_lstsize(lists[0]) > 2)
+	else if (ft_lstsize(lists[0]) > 2)
 	{
 		lst_reverse_rotate(&lists[0]);
 		ft_instruc("rr", 0, name, instruc);
