@@ -25,6 +25,10 @@ LIB			=	$(LIB_PATH)/libft.a
 
 RM	=	rm -rf
 
+# HEADERS
+
+HEADER	=	inc/push_swap.h
+
 #######################################################
 ## SRCS & OBJS
 
@@ -51,7 +55,7 @@ $(LIB) :
 $(NAME) : $(OBJS) Makefile
 		$(CC) $(CFLAGS) $(INC) $(OBJS) -o $(NAME) $(LIB)
 
-$(OBJ_DIR)%.o : $(SRC_DIR)%.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c $(HEADER) | $(OBJ_DIR)
 		$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR) :
