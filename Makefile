@@ -1,31 +1,41 @@
 #######################################################
 ## ARGUMENTS
 
-NAME 		=	push_swap
+# NAME
 
-CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
-HEADER		=	-Iinc
+NAME	=	push_swap
 
-SRC_DIR		=	src/
-OBJ_DIR		=	obj/
+# CC FLAG INC
+
+CC		=	cc
+CFLAGS	=	-Wall -Wextra -Werror
+INC		=	-Iinc
+
+# SRC & OBJ DIR
+
+SRC_DIR	=	src/
+OBJ_DIR	=	obj/
+
+# LIB
 
 LIB_PATH	=	./libft
-LIB			=	-Llibft -lft
+LIB			=	$(LIB_PATH)/libft.a
 
-RM			=	rm -rf
+# RM
+
+RM	=	rm -rf
 
 #######################################################
 ## SRCS & OBJS
 
-FILES		= \
-			main \
-			parsing \
-			lst_utils \
-			tercil \
-			sort \
-			opti \
-			instruc \
+FILES	= \
+		main \
+		parsing \
+		lst_utils \
+		tercil \
+		sort \
+		opti \
+		instruc \
 
 SRCS	=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS	=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
@@ -33,16 +43,16 @@ OBJS	=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
 #######################################################
 ## RULES
 
-all : make_lib $(NAME)
+all : $(LIB) $(NAME)
 
-make_lib :
+$(LIB) :
 		@make -C $(LIB_PATH)
 
-$(NAME) : $(OBJS)
-		$(CC) $(CFLAGS) $(HEADER) $(OBJS) $(LIB) -o $(NAME)
+$(NAME) : $(OBJS) Makefile
+		$(CC) $(CFLAGS) $(INC) $(OBJS) -o $(NAME) $(LIB)
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c | $(OBJ_DIR)
-		$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
+		$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR) :
 		@mkdir -p $(OBJ_DIR)
@@ -59,4 +69,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re norm
