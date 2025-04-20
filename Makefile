@@ -7,9 +7,9 @@ NAME	=	push_swap
 
 # CC FLAG INC
 
-CC		=	cc
+CC	=	cc
 CFLAGS	=	-Wall -Wextra -Werror
-INC		=	-Iinc
+INC	=	-Iinc
 
 # SRC & OBJ DIR
 
@@ -19,7 +19,7 @@ OBJ_DIR	=	obj/
 # LIB
 
 LIB_PATH	=	./libft
-LIB			=	$(LIB_PATH)/libft.a
+LIB		=	$(LIB_PATH)/libft.a
 
 # RM
 
@@ -52,20 +52,20 @@ all : $(LIB) $(NAME)
 $(LIB) :
 		@make -C $(LIB_PATH)
 
-$(NAME) : $(OBJS) Makefile
+$(NAME) : $(OBJ_DIR) $(OBJS) Makefile
 		$(CC) $(CFLAGS) $(INC) $(OBJS) -o $(NAME) $(LIB)
-
-$(OBJ_DIR)%.o : $(SRC_DIR)%.c $(HEADER) | $(OBJ_DIR)
-		$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR) :
 		@mkdir -p $(OBJ_DIR)
 
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c $(HEADER)
+		$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
 norm :
-	norminette libft inc src
+		norminette libft inc src
 
 clean :
-		make -C $(LIB_PATH) fclean
+		@make -C $(LIB_PATH) fclean
 		$(RM) $(OBJ_DIR)
 
 fclean : clean
