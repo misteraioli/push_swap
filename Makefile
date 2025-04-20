@@ -7,9 +7,9 @@ NAME	=	push_swap
 
 # CC FLAG INC
 
-CC	=	cc
+CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
-INC	=	-Iinc
+INC		=	-Iinc
 
 # SRC & OBJ DIR
 
@@ -19,7 +19,7 @@ OBJ_DIR	=	obj/
 # LIB
 
 LIB_PATH	=	./libft
-LIB		=	$(LIB_PATH)/libft.a
+LIB			=	$(LIB_PATH)/libft.a
 
 # RM
 
